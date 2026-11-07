@@ -1,0 +1,30 @@
+{
+  "name": "ripple",
+  "version": "1.0.0",
+  "description": "Ripple is a pull-request impact analysis platform for engineering teams. It inspects a GitHub pull request, resolves static local code dependencies, identifies files that may be affected by the change, and presents the result in a clear, explainable dashboard.",
+  "homepage": "https://github.com/harsh200623/Ripple#readme",
+  "bugs": {
+    "url": "https://github.com/harsh200623/Ripple/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harsh200623/Ripple.git"
+  },
+  "license": "MIT",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "multer": "^2.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
