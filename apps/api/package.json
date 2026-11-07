@@ -1,0 +1,40 @@
+{
+  "name": "@ripple/api",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "nodemon --watch src --ext ts --exec \"node --import tsx src/server.ts\"",
+    "start": "node dist/server.js",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "ingest:pr": "tsx scripts/ingestPr.ts",
+    "seed:demo": "tsx scripts/seedDemo.ts"
+  },
+  "dependencies": {
+    "@octokit/rest": "^21.0.2",
+    "@ripple/shared": "1.0.0",
+    "drizzle-orm": "^0.36.4",
+    "express": "^5.0.1",
+    "pg": "^8.13.1",
+    "pg-boss": "^10.1.5",
+    "pino": "^9.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/pg": "^8.11.10",
+    "@types/supertest": "^6.0.2",
+    "drizzle-kit": "^0.28.1",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4",
+    "@types/node": "^22.10.0"
+  }
+}
