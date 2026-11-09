@@ -10,10 +10,17 @@ export interface AnalysisInput {
   /** Absolute path to the checked-out PR head snapshot. Read-only; never executed. */
   checkoutPath: string;
   headSha: string;
-  changedFiles: ReadonlyArray<{ filePath: string; status: ChangedFileStatus }>;
+  changedFiles: ReadonlyArray<{
+    filePath: string;
+    status: ChangedFileStatus;
+    additions?: number;
+    deletions?: number;
+    previousFilePath?: string | null;
+  }>;
   limits: {
     maxFiles: number;
     timeoutMs: number;
+    signal?: AbortSignal;
   };
 }
 

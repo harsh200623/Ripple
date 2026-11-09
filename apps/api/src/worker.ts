@@ -17,6 +17,7 @@ export interface WorkerDeps {
   engine: AnalysisEngine;
   queue: QueueService;
   maxChangedFiles: number;
+  maxAnalysisFiles: number;
   analysisTimeoutMs: number;
 }
 
@@ -71,8 +72,18 @@ export async function runAnalysis(deps: WorkerDeps, data: AnalysisJobData): Prom
       deps.engine({
         checkoutPath: snapshot.checkoutPath,
         headSha: snapshot.headSha,
-        changedFiles: files.map((f) => ({ filePath: f.filePath, status: f.status })),
-        limits: { maxFiles: deps.maxChangedFiles, timeoutMs: deps.analysisTimeoutMs },
+        changedFiles: files.map((file) => ({
+          filePath: file.filePath,
+          status: file.status,
+          additions: file.additions,
+          deletions: file.deletions,
+          previousFilePath: file.previousFilePath,
+        })),
+        limits: {
+          maxFiles: deps.maxAnalysisFiles,
+          timeoutMs: deps.analysisTimeoutMs,
+          signal: timeout.signal,
+        },
       }),
       timeout.signal,
     );

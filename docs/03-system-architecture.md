@@ -53,27 +53,16 @@ Dashboard and summary API
 ## Recommended module boundaries
 
 ```text
-src/
-  app/
-    api/
-    config/
-    middleware/
-  domain/
-    analysis/
-      parser/
-      graph/
-      blast-radius/
-      scoring/
-      warnings/
-    github/
-    repo/
-  infra/
-    db/
-    jobs/
-    storage/
-  web/
-    client/
-    dashboard/
+apps/
+  api/
+    src/
+      analysis/        # API/worker contract and engine adapter
+      services/        # GitHub, repository, queue, and orchestration
+      db/
+packages/
+  core-analysis-engine/
+    src/domain/analysis/ # Framework-independent analysis logic
+  shared/                # API schemas and shared data types
 ```
 
 The analysis domain should be callable from code without depending on Express, React, or request lifecycle context. The API layer should pass explicit inputs and results across boundaries.
@@ -85,10 +74,11 @@ The analysis domain should be callable from code without depending on Express, R
 3. API enqueues an async job for processing.
 4. Worker retrieves PR and repo metadata.
 5. Worker checks out the exact PR head SHA.
-6. Analysis engine builds the dependency graph.
-7. Risk calculation and warnings are produced.
-8. Result is persisted and made available through status endpoints.
-9. Frontend polls for completion and renders the dashboard.
+6. Worker scans the checkout read-only, excluding generated/vendor directories and symbolic links, with a configured source-file limit.
+7. The analysis engine builds the dependency graph.
+8. Risk calculation and warnings are produced.
+9. Result is persisted and made available through status endpoints.
+10. Frontend polls for completion and renders the dashboard.
 
 ## Job workflow
 
@@ -102,6 +92,7 @@ Worker
   -> status=running
   -> fetch PR metadata
   -> fetch repo snapshot
+  -> bounded read-only source scan
   -> parse source files
   -> build graph
   -> compute affected files and score

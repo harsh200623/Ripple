@@ -3,19 +3,23 @@ FROM node:20-alpine AS build
 WORKDIR /repo
 RUN apk add --no-cache git
 COPY package.json package-lock.json ./
+COPY packages/core-analysis-engine/package.json packages/core-analysis-engine/
 COPY packages/shared/package.json packages/shared/
 COPY apps/api/package.json apps/api/
 RUN npm ci --workspaces --include-workspace-root
 COPY tsconfig.base.json ./
+COPY packages/core-analysis-engine packages/core-analysis-engine
 COPY packages/shared packages/shared
 COPY apps/api apps/api
-RUN npm run build --workspace @ripple/shared && npm run build --workspace @ripple/api
+RUN npm run build --workspace @ripple/shared && npm run build --workspace @ripple/core-analysis-engine && npm run build --workspace @ripple/api
 
 FROM node:20-alpine AS runtime
 WORKDIR /repo
 ENV NODE_ENV=production
 RUN apk add --no-cache git && addgroup -S ripple && adduser -S ripple -G ripple
 COPY --from=build /repo/package.json /repo/package-lock.json ./
+COPY --from=build /repo/packages/core-analysis-engine/package.json packages/core-analysis-engine/
+COPY --from=build /repo/packages/core-analysis-engine/dist packages/core-analysis-engine/dist
 COPY --from=build /repo/packages/shared/package.json packages/shared/
 COPY --from=build /repo/packages/shared/dist packages/shared/dist
 COPY --from=build /repo/apps/api/package.json apps/api/

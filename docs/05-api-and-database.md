@@ -67,7 +67,7 @@ Response status: `202 Accepted`
     },
     "summary": {
       "riskScore": 67,
-      "riskLevel": "High",
+      "riskLevel": "high",
       "changedFileCount": 2,
       "directAffectedCount": 4,
       "indirectAffectedCount": 6,
@@ -210,6 +210,17 @@ The error code should be stable and machine-readable. User-facing messages must 
 | `created_at` | result creation timestamp |
 
 The queue system may manage its own tables, but the application-level `analyses` record remains the source of truth for UI status.
+
+### Persisted risk breakdown
+
+The worker stores the documented risk factors as `factors`, each with a stable name, the points contributed, and its maximum weight:
+
+- `blast_radius` (maximum 40 points)
+- `impact_depth` (maximum 20 points)
+- `change_size` (maximum 20 points)
+- `criticality` (maximum 20 points)
+
+The persisted risk breakdown also records whether analysis was partial. Warnings include parser errors, unresolved imports, unsupported changed files, missing changed files, and configured source-file-limit or symlink exclusions.
 
 ## Persistence rules
 

@@ -9,6 +9,7 @@ const envSchema = z.object({
   QUEUE_CONCURRENCY: z.coerce.number().int().min(1).max(16).default(2),
   ANALYSIS_TIMEOUT_MS: z.coerce.number().int().min(1000).max(3_600_000).default(120_000),
   MAX_CHANGED_FILES: z.coerce.number().int().min(1).max(10_000).default(300),
+  MAX_ANALYSIS_FILES: z.coerce.number().int().min(1).max(100_000).default(20_000),
   MAX_REPO_SIZE_MB: z.coerce.number().int().min(1).max(10_000).default(200),
   TEMP_DIR: z.string().min(1).default('/tmp/ripple'),
   RATE_LIMIT_WINDOW_MS: z.coerce.number().int().min(1000).default(60_000),

@@ -7,8 +7,11 @@
   "scripts": {
     "dev": "nodemon --watch src --ext ts --exec \"node --import tsx src/server.ts\"",
     "start": "node dist/server.js",
+    "prebuild": "npm run build --workspace=@ripple/shared && npm run build --workspace=@ripple/core-analysis-engine",
     "build": "tsc -p tsconfig.json",
+    "pretypecheck": "npm run build --workspace=@ripple/shared && npm run build --workspace=@ripple/core-analysis-engine",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "npm run build --workspace=@ripple/shared && npm run build --workspace=@ripple/core-analysis-engine",
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -17,6 +20,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^21.0.2",
+    "@ripple/core-analysis-engine": "1.0.0",
     "@ripple/shared": "1.0.0",
     "drizzle-orm": "^0.36.4",
     "express": "^5.0.1",

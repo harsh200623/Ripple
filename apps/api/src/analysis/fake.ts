@@ -1,9 +1,8 @@
 import type { AnalysisEngine, AnalysisOutput } from './types';
 
 /**
- * Deterministic stand-in engine used until Part 2 lands. It reports every changed
- * file as "changed", emits no dependency edges, and marks the result as partial so
- * the UI can never present it as a complete impact analysis.
+ * Deterministic stand-in for tests and explicitly selected local experiments.
+ * Production server wiring uses the real dependency-analysis engine.
  */
 export const fakeAnalysisEngine: AnalysisEngine = async (input): Promise<AnalysisOutput> => {
   const nodes = input.changedFiles.map((file) => ({

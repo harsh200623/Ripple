@@ -7,7 +7,7 @@ import { RepoService } from './services/repo';
 import { AnalysisService } from './services/analysis';
 import { QueueService } from './services/queue';
 import { startWorker } from './worker';
-import { fakeAnalysisEngine } from './analysis/fake';
+import { realAnalysisEngine } from './analysis/real';
 
 async function main(): Promise<void> {
   const config = loadConfig();
@@ -37,9 +37,10 @@ async function main(): Promise<void> {
       db,
       github,
       repo,
-      engine: fakeAnalysisEngine,
+      engine: realAnalysisEngine,
       queue,
       maxChangedFiles: config.MAX_CHANGED_FILES,
+      maxAnalysisFiles: config.MAX_ANALYSIS_FILES,
       analysisTimeoutMs: config.ANALYSIS_TIMEOUT_MS,
     });
   }

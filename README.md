@@ -34,6 +34,8 @@ Ripple is designed to be more than a demo. The project assumes:
 - production-safe handling of secrets and partial analysis,
 - and maintainable documentation for the full system lifecycle.
 
-## Status
+## Current implementation
 
-This repository currently contains the project documentation and supporting templates for a production-oriented engineering workflow. No source-code functionality has been changed in this pass.
+The repository includes the asynchronous API and worker, shared API contracts, and the core TypeScript/JavaScript dependency-analysis engine. The API worker runs the engine against a bounded, read-only checkout of the exact PR head snapshot and persists its graph, affected files, risk factors, and warnings.
+
+The analysis is static and heuristic. Unsupported files, unresolved imports, parser limitations, and configured analysis limits are surfaced as warnings rather than treated as proof of runtime breakage.
